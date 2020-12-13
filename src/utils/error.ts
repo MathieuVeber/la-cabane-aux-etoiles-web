@@ -1,0 +1,3 @@
+export enum GENERAL_ERROR {
+  SERVER_ERROR = "SERVER_ERROR",
+}
