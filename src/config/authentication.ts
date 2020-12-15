@@ -1,8 +1,8 @@
 import passport from 'passport';
 import { Strategy } from 'passport-local';
 import { Parent } from '../models/parents';
-import { Request } from 'express';
 import JWToken from '../utils/JWToken';
+import extractCookieFromRequest from '../utils/extractCookieFromRequest';
 
 passport.use(new Strategy(
   {
@@ -22,20 +22,11 @@ passport.use(new Strategy(
   }
 ));
 
+
+
 const JWTstrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
-// TODO-MV
-// - Move function
-// - Error format
-// - Expiration Token (refresh ?)
-const extractCookieFromRequest = (cookieName: string) => (req: Request) => {
-    let token = null;
-    if (req && req.cookies) {
-        token = req.cookies[cookieName];
-    }
-    return token;
-};
 passport.use(
   new JWTstrategy(
     {

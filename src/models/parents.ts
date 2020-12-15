@@ -1,10 +1,14 @@
 import { Document, Schema, model, Model } from "mongoose";
 import bcrypt from "bcrypt";
+import { IChild, childSchema } from "./children";
+import { adressSchema, IAddress } from "./commons";
 
 export interface IParent extends Document {
   email: string;
   lastName: string;
   firstName: string;
+  address: IAddress;
+  children: Array<IChild>;
   getSafeParent(): ISafeParent;
   setPassword(password: string): void;
   validatePassword(password: string): boolean;
@@ -12,7 +16,7 @@ export interface IParent extends Document {
 
 export type ISafeParent = Pick<
   IParent,
-  "_id" | "email" | "lastName" | "firstName"
+  "_id" | "email" | "lastName" | "firstName" | "address" | "children"
 >;
 
 const parentSchema = new Schema({
@@ -20,6 +24,8 @@ const parentSchema = new Schema({
   lastName: { type: String, required: true },
   firstName: { type: String, required: true },
   password: { type: String, required: true },
+  address: adressSchema,
+  children: [childSchema],
 });
 
 parentSchema.methods.setPassword = async function (
@@ -36,8 +42,8 @@ parentSchema.methods.validatePassword = function (
 };
 
 parentSchema.methods.getSafeParent = function (): ISafeParent {
-  const { _id, email, lastName, firstName } = this;
-  return { _id, email, lastName, firstName };
+  const { _id, email, lastName, firstName, address, children } = this;
+  return { _id, email, lastName, firstName, address, children };
 };
 
 export const Parent = model<IParent, Model<IParent>>("Parent", parentSchema);

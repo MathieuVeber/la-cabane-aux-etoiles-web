@@ -1,3 +1,3 @@
 import passport from 'passport'
 
-export const authenticatedRoute = () => passport.authenticate('jwt', { session: false })
+export const authenticatedRoute = () => passport.authenticate('jwt', { session: false });
