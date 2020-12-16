@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import auth from "../api/auth";
 import { Parent } from "../Parent/types";
 import { AUTH_ERROR } from "./types";
