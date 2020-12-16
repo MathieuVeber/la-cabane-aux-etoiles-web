@@ -8,7 +8,8 @@ export interface IParent extends Document {
   lastName: string;
   firstName: string;
   address: IAddress;
-  children: Array<IChild>;
+  children: IChild;
+  isAdmin: boolean;
   getSafeParent(): ISafeParent;
   setPassword(password: string): void;
   validatePassword(password: string): boolean;
@@ -16,7 +17,13 @@ export interface IParent extends Document {
 
 export type ISafeParent = Pick<
   IParent,
-  "_id" | "email" | "lastName" | "firstName" | "address" | "children"
+  | "_id"
+  | "email"
+  | "lastName"
+  | "firstName"
+  | "address"
+  | "children"
+  | "isAdmin"
 >;
 
 const parentSchema = new Schema({
@@ -25,7 +32,8 @@ const parentSchema = new Schema({
   firstName: { type: String, required: true },
   password: { type: String, required: true },
   address: adressSchema,
-  children: [childSchema],
+  children: [{ type: childSchema, default: [] }],
+  isAdmin: { type: Boolean, required: true, default: false },
 });
 
 parentSchema.methods.setPassword = async function (
@@ -42,8 +50,8 @@ parentSchema.methods.validatePassword = function (
 };
 
 parentSchema.methods.getSafeParent = function (): ISafeParent {
-  const { _id, email, lastName, firstName, address, children } = this;
-  return { _id, email, lastName, firstName, address, children };
+  const { _id, email, lastName, firstName, address, children, isAdmin } = this;
+  return { _id, email, lastName, firstName, address, children, isAdmin };
 };
 
 export const Parent = model<IParent, Model<IParent>>("Parent", parentSchema);

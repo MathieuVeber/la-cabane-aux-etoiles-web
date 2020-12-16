@@ -9,10 +9,11 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 
-import loginRoute from "./routes/login";
-import registerRoute from "./routes/register";
+import meRoute from "./routes/me";
+import authRoute from "./routes/auth";
+import parentsRoute from "./routes/parents";
 import { authenticationInitialize } from "./config/authentication";
-import { authenticatedRoute } from "./middlewares/authenticatedRoute";
+import authenticatedRoute from "./middlewares/authenticatedRoute";
 import { IParent } from "./models/parents";
 
 const app = express();
@@ -25,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(authenticationInitialize());
 app.use(cookieParser());
-// TODO-MV config cors
+
 app.use(
   cors({
     origin: true,
@@ -33,14 +34,20 @@ app.use(
   })
 );
 
-app.use("/login", loginRoute);
-app.use("/register", registerRoute);
+app.use("/me", meRoute);
+app.use("/auth", authRoute);
+app.use("/parents", parentsRoute);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Bienvenue dans la Cabane aux étoiles");
 });
 
-app.get("/teapot", authenticatedRoute(), (req: Request, res: Response) => {
+// TODO-MV :
+// - Comment and organize this file
+// - config CORS
+// - delete or rearrange / teapot
+
+app.get("/teapot", authenticatedRoute, (req: Request, res: Response) => {
   res
     .status(418)
     .send(
