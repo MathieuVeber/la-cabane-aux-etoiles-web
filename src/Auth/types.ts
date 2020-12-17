@@ -1,5 +1,3 @@
-import { GENERAL_ERROR } from "../utils/error";
-
 export interface AuthState {
   loading: boolean;
   success?: boolean;
@@ -10,5 +8,6 @@ export interface AuthState {
 export enum AUTH_ERROR {
   ALREADY_LOGGED_IN = "ALREADY_LOGGED_IN",
   CREDENTIALS_ERROR = "CREDENTIALS_ERROR",
+  EMAIL_ALREADY_EXISTS = "EMAIL_ALREADY_EXISTS",
   SERVER_ERROR = "SERVER_ERROR",
 }

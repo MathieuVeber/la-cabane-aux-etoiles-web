@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { Parent } from "./types";
+import { Parent, ParentState } from "./types";
 
-export const initialState = {
+export const initialState: ParentState = {
   currentParent: undefined,
 };
 
@@ -14,7 +14,7 @@ export const parentSlice = createSlice({
   initialState,
   reducers: {
     setCurrentParent: (state, action) => {
-      state.currentParent = action.payload.parent;
+      state.currentParent = action.payload;
     },
     resetCurrentParent: (state) => {
       state.currentParent = undefined;
