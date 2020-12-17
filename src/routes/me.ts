@@ -6,8 +6,8 @@ import { IParent, ISafeParent } from "../models/parents";
 const router = Router();
 
 router.get("/", authenticatedRoute, async (req: Request, res: Response) => {
-  const parent: ISafeParent = (req.user as IParent).getSafeParent();
-  return res.status(200).json(parent);
+  const safeParent: ISafeParent = (req.user as IParent).getSafeParent();
+  return res.status(200).json(safeParent);
 });
 
 export default router;

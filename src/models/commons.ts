@@ -17,19 +17,17 @@ export const dateSchema = new Schema({
 //-------------------- ADDRESS --------------------//
 
 export interface IAddress {
-  number: number;
   street: string;
   complement?: string;
   city: string;
-  zipCode: number;
+  zipCode: string;
   country: string;
 }
 
 export const adressSchema = new Schema({
-  number: { type: Number, required: true },
   street: { type: String, required: true },
   complement: { type: String, required: false },
   city: { type: String, required: true },
-  zipCode: { type: Number, required: true },
+  zipCode: { type: String, required: true },
   country: { type: String, required: true, default: "France" },
 });

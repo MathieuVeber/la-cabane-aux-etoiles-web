@@ -25,7 +25,7 @@ router.get(
     if (!parent) {
       return res.status(404).send(ErrorTypes.PARENT_NOT_FOUND);
     }
-    return res.status(200).json(parent);
+    return res.status(200).json(parent.getSafeParent());
   }
 );
 
@@ -36,14 +36,16 @@ router.patch(
   async (req: Request, res: Response) => {
     let parent: IParent | null;
     try {
-      parent = await Parent.findByIdAndUpdate(req.params.id, req.body);
+      parent = await Parent.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+      });
     } catch (err) {
       return res.status(500).send(ErrorTypes.SERVER_ERROR);
     }
     if (!parent) {
       return res.status(404).send(ErrorTypes.PARENT_NOT_FOUND);
     }
-    return res.sendStatus(204);
+    return res.sendStatus(200).send(parent.getSafeParent());
   }
 );
 
