@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { login } from "./actions";
-import { AuthState, AUTH_ERROR } from "./types";
+import { login, register } from "./actions";
+import { AuthState } from "./types";
+import history from "../history";
 
 export const initialState: AuthState = {
   loading: false,
@@ -28,6 +29,22 @@ export const authSlice = createSlice({
         state.error = undefined;
       })
       .addCase(login.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
+        state.error = action.payload;
+      })
+      .addCase(register.pending, (state) => {
+        state.loading = true;
+        state.error = undefined;
+        state.success = undefined;
+      })
+      .addCase(register.fulfilled, (state) => {
+        state.loading = false;
+        state.success = true;
+        state.error = undefined;
+        history.push("/");
+      })
+      .addCase(register.rejected, (state, action) => {
         state.loading = false;
         state.success = false;
         state.error = action.payload;
